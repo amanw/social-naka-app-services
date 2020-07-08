@@ -204,4 +204,4 @@ clean:
 	rm -rf $(DOCKER_BUILD)
 
 heroku: $(DOCKER_CMD)
-	heroku container:push web
+	heroku container:push web -a social-naka-app-services

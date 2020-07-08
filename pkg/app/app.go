@@ -25,11 +25,13 @@ func NewApp() (*App, error) {
 	return &App{}, nil
 }
 
-// Init will Initialize the application
-func (a *App) Init() (http.Handler, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+// Init will Initialize the application with devType
+func (a *App) Init(devType string) (http.Handler, error) {
+	if devType == "dev" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 	// Create a mongo DB connection
 	db := a.InitDB()
@@ -62,8 +64,8 @@ func (a *App) Run(socialNakaHandler http.Handler) error {
 }
 
 // Start will initialize and run the application
-func (a *App) Start() error {
-	socialNakaHandler, err := a.Init()
+func (a *App) Start(arg string) error {
+	socialNakaHandler, err := a.Init(arg)
 	if err != nil {
 		log.Fatalf("Failed to create the handler object from the configuration: %s", err)
 	}
