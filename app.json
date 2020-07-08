@@ -1,0 +1,11 @@
+{
+  "name": "Social Naka App Services",
+  "description": "Go Rest API App",
+  "keywords": [
+    "social-naka-app-services",
+    "go",
+    "social-naka-app"
+  ],
+  "website": "http://github.com/amanw/social-naka-app-services",
+  "repository": "http://github.com/amanw/social-naka-app-services"
+}
