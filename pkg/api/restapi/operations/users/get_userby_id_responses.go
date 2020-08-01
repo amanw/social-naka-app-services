@@ -25,7 +25,7 @@ type GetUserbyIDOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.User `json:"body,omitempty"`
+	Payload *models.RegistrationResponse `json:"body,omitempty"`
 }
 
 // NewGetUserbyIDOK creates GetUserbyIDOK with default headers values
@@ -35,13 +35,13 @@ func NewGetUserbyIDOK() *GetUserbyIDOK {
 }
 
 // WithPayload adds the payload to the get userby Id o k response
-func (o *GetUserbyIDOK) WithPayload(payload *models.User) *GetUserbyIDOK {
+func (o *GetUserbyIDOK) WithPayload(payload *models.RegistrationResponse) *GetUserbyIDOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get userby Id o k response
-func (o *GetUserbyIDOK) SetPayload(payload *models.User) {
+func (o *GetUserbyIDOK) SetPayload(payload *models.RegistrationResponse) {
 	o.Payload = payload
 }
 
@@ -69,7 +69,7 @@ type GetUserbyIDBadRequest struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUserbyIDBadRequest creates GetUserbyIDBadRequest with default headers values
@@ -79,13 +79,13 @@ func NewGetUserbyIDBadRequest() *GetUserbyIDBadRequest {
 }
 
 // WithPayload adds the payload to the get userby Id bad request response
-func (o *GetUserbyIDBadRequest) WithPayload(payload *models.Error) *GetUserbyIDBadRequest {
+func (o *GetUserbyIDBadRequest) WithPayload(payload *models.Response) *GetUserbyIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get userby Id bad request response
-func (o *GetUserbyIDBadRequest) SetPayload(payload *models.Error) {
+func (o *GetUserbyIDBadRequest) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -113,7 +113,7 @@ type GetUserbyIDUnauthorized struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUserbyIDUnauthorized creates GetUserbyIDUnauthorized with default headers values
@@ -123,13 +123,13 @@ func NewGetUserbyIDUnauthorized() *GetUserbyIDUnauthorized {
 }
 
 // WithPayload adds the payload to the get userby Id unauthorized response
-func (o *GetUserbyIDUnauthorized) WithPayload(payload *models.Error) *GetUserbyIDUnauthorized {
+func (o *GetUserbyIDUnauthorized) WithPayload(payload *models.Response) *GetUserbyIDUnauthorized {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get userby Id unauthorized response
-func (o *GetUserbyIDUnauthorized) SetPayload(payload *models.Error) {
+func (o *GetUserbyIDUnauthorized) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -157,7 +157,7 @@ type GetUserbyIDNotFound struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUserbyIDNotFound creates GetUserbyIDNotFound with default headers values
@@ -167,13 +167,13 @@ func NewGetUserbyIDNotFound() *GetUserbyIDNotFound {
 }
 
 // WithPayload adds the payload to the get userby Id not found response
-func (o *GetUserbyIDNotFound) WithPayload(payload *models.Error) *GetUserbyIDNotFound {
+func (o *GetUserbyIDNotFound) WithPayload(payload *models.Response) *GetUserbyIDNotFound {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get userby Id not found response
-func (o *GetUserbyIDNotFound) SetPayload(payload *models.Error) {
+func (o *GetUserbyIDNotFound) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -201,7 +201,7 @@ type GetUserbyIDInternalServerError struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUserbyIDInternalServerError creates GetUserbyIDInternalServerError with default headers values
@@ -211,13 +211,13 @@ func NewGetUserbyIDInternalServerError() *GetUserbyIDInternalServerError {
 }
 
 // WithPayload adds the payload to the get userby Id internal server error response
-func (o *GetUserbyIDInternalServerError) WithPayload(payload *models.Error) *GetUserbyIDInternalServerError {
+func (o *GetUserbyIDInternalServerError) WithPayload(payload *models.Response) *GetUserbyIDInternalServerError {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get userby Id internal server error response
-func (o *GetUserbyIDInternalServerError) SetPayload(payload *models.Error) {
+func (o *GetUserbyIDInternalServerError) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 

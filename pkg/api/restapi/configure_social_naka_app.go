@@ -14,12 +14,44 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations"
+	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/events"
+	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/login"
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/users"
 )
 
 type contextKey string
 
 const AuthKey contextKey = "Auth"
+
+//go:generate mockery -name EventsAPI -inpkg
+
+// EventsAPI
+type EventsAPI interface {
+	// DeleteEventbyID is It delets the event information details by ID
+
+	DeleteEventbyID(ctx context.Context, params events.DeleteEventbyIDParams) middleware.Responder
+	// GetEventbyID is It gets the event information details by ID
+
+	GetEventbyID(ctx context.Context, params events.GetEventbyIDParams) middleware.Responder
+	// GetEvents is It gets all the Events
+
+	GetEvents(ctx context.Context, params events.GetEventsParams) middleware.Responder
+	// PostEvent is It registers the Event
+
+	PostEvent(ctx context.Context, params events.PostEventParams) middleware.Responder
+	// UpdateEventbyID is It updates the user information details by ID
+
+	UpdateEventbyID(ctx context.Context, params events.UpdateEventbyIDParams) middleware.Responder
+}
+
+//go:generate mockery -name LoginAPI -inpkg
+
+// LoginAPI
+type LoginAPI interface {
+	// LoginUser is It logins the User
+
+	LoginUser(ctx context.Context, params login.LoginUserParams) middleware.Responder
+}
 
 //go:generate mockery -name UsersAPI -inpkg
 
@@ -44,6 +76,8 @@ type UsersAPI interface {
 
 // Config is configuration for Handler
 type Config struct {
+	EventsAPI
+	LoginAPI
 	UsersAPI
 	Logger func(string, ...interface{})
 	// InnerMiddleware is for the handler executors. These do not apply to the swagger.json document.
@@ -76,9 +110,21 @@ func HandlerAPI(c Config) (http.Handler, *operations.SocialNakaAppAPI, error) {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 	api.JSONProducer = runtime.JSONProducer()
+	api.EventsDeleteEventbyIDHandler = events.DeleteEventbyIDHandlerFunc(func(params events.DeleteEventbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.EventsAPI.DeleteEventbyID(ctx, params)
+	})
 	api.UsersDeleteUserbyIDHandler = users.DeleteUserbyIDHandlerFunc(func(params users.DeleteUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
 		return c.UsersAPI.DeleteUserbyID(ctx, params)
+	})
+	api.EventsGetEventbyIDHandler = events.GetEventbyIDHandlerFunc(func(params events.GetEventbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.EventsAPI.GetEventbyID(ctx, params)
+	})
+	api.EventsGetEventsHandler = events.GetEventsHandlerFunc(func(params events.GetEventsParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.EventsAPI.GetEvents(ctx, params)
 	})
 	api.UsersGetUserbyIDHandler = users.GetUserbyIDHandlerFunc(func(params users.GetUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
@@ -88,9 +134,21 @@ func HandlerAPI(c Config) (http.Handler, *operations.SocialNakaAppAPI, error) {
 		ctx := params.HTTPRequest.Context()
 		return c.UsersAPI.GetUsers(ctx, params)
 	})
+	api.LoginLoginUserHandler = login.LoginUserHandlerFunc(func(params login.LoginUserParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.LoginAPI.LoginUser(ctx, params)
+	})
+	api.EventsPostEventHandler = events.PostEventHandlerFunc(func(params events.PostEventParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.EventsAPI.PostEvent(ctx, params)
+	})
 	api.UsersRegisterUserHandler = users.RegisterUserHandlerFunc(func(params users.RegisterUserParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
 		return c.UsersAPI.RegisterUser(ctx, params)
+	})
+	api.EventsUpdateEventbyIDHandler = events.UpdateEventbyIDHandlerFunc(func(params events.UpdateEventbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.EventsAPI.UpdateEventbyID(ctx, params)
 	})
 	api.UsersUpdateUserbyIDHandler = users.UpdateUserbyIDHandlerFunc(func(params users.UpdateUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()

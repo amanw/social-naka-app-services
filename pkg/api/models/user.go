@@ -24,21 +24,20 @@ type User struct {
 	Description string `json:"description,omitempty"`
 
 	// dob
-	// Required: true
 	// Format: date
-	Dob *strfmt.Date `json:"dob"`
+	Dob *strfmt.Date `json:"dob,omitempty"`
 
 	// email address
-	// Required: true
-	EmailAddress *string `json:"email_address"`
+	EmailAddress string `json:"email_address,omitempty"`
 
 	// first name
-	// Required: true
-	FirstName *string `json:"first_name"`
+	FirstName string `json:"first_name,omitempty"`
+
+	// house name
+	HouseName string `json:"house_name,omitempty"`
 
 	// id
-	// Required: true
-	ID *string `json:"id"`
+	ID string `json:"id,omitempty"`
 
 	// is active
 	IsActive bool `json:"is_active,omitempty"`
@@ -47,34 +46,28 @@ type User struct {
 	IsStayingHere bool `json:"is_staying_here,omitempty"`
 
 	// last name
-	// Required: true
-	LastName *string `json:"last_name"`
+	LastName string `json:"last_name,omitempty"`
 
 	// location
-	// Required: true
-	Location *string `json:"location"`
+	Location string `json:"location,omitempty"`
 
 	// mobile no
-	// Required: true
-	MobileNo *string `json:"mobile_no"`
+	MobileNo string `json:"mobile_no,omitempty"`
 
 	// password
-	// Required: true
-	Password *string `json:"password"`
+	Password string `json:"password,omitempty"`
 
 	// role name
 	RoleName string `json:"role_name,omitempty"`
 
 	// sex
-	// Required: true
-	Sex *string `json:"sex"`
+	Sex string `json:"sex,omitempty"`
 
 	// updated at
 	UpdatedAt string `json:"updated_at,omitempty"`
 
 	// username
-	// Required: true
-	Username *string `json:"username"`
+	Username string `json:"username,omitempty"`
 }
 
 // Validate validates this user
@@ -82,42 +75,6 @@ func (m *User) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDob(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateEmailAddress(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateFirstName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateLastName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateLocation(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateMobileNo(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validatePassword(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSex(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateUsername(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -129,92 +86,11 @@ func (m *User) Validate(formats strfmt.Registry) error {
 
 func (m *User) validateDob(formats strfmt.Registry) error {
 
-	if err := validate.Required("dob", "body", m.Dob); err != nil {
-		return err
+	if swag.IsZero(m.Dob) { // not required
+		return nil
 	}
 
 	if err := validate.FormatOf("dob", "body", "date", m.Dob.String(), formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateEmailAddress(formats strfmt.Registry) error {
-
-	if err := validate.Required("email_address", "body", m.EmailAddress); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateFirstName(formats strfmt.Registry) error {
-
-	if err := validate.Required("first_name", "body", m.FirstName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateID(formats strfmt.Registry) error {
-
-	if err := validate.Required("id", "body", m.ID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateLastName(formats strfmt.Registry) error {
-
-	if err := validate.Required("last_name", "body", m.LastName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateLocation(formats strfmt.Registry) error {
-
-	if err := validate.Required("location", "body", m.Location); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateMobileNo(formats strfmt.Registry) error {
-
-	if err := validate.Required("mobile_no", "body", m.MobileNo); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validatePassword(formats strfmt.Registry) error {
-
-	if err := validate.Required("password", "body", m.Password); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateSex(formats strfmt.Registry) error {
-
-	if err := validate.Required("sex", "body", m.Sex); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *User) validateUsername(formats strfmt.Registry) error {
-
-	if err := validate.Required("username", "body", m.Username); err != nil {
 		return err
 	}
 

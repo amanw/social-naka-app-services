@@ -100,7 +100,7 @@ endif
 
 ## Build all binaries
 build:
-	$(GO) build -o bin/social-naka-app-services internal/main.go
+	$(GO) build -o bin/social-naka-app-services main.go
 
 ## Compress all binaries
 pack:

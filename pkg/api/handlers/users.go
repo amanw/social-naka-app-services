@@ -34,23 +34,39 @@ func (u UserHandler) RegisterUser(ctx context.Context, params api.RegisterUserPa
 	// 	}
 	// 	return api.NewRegisterUserUnauthorized().WithPayload(&err)
 	// }
+	registrationRes := &models.RegistrationResponse{}
+	if params.UserBody.RoleName == "" {
+		params.UserBody.RoleName = "USER"
+	}
 	postStatus, err := u.userService.CreateUser(params.UserBody)
 
 	fmt.Println("postStatus:", *postStatus)
 	if err != nil {
-		postErr := models.Error{
-			Status:  400,
+		postErr := models.Response{
+			Code:    400,
+			Status:  "Failed",
 			Message: err.Error(),
 		}
-		return api.NewRegisterUserBadRequest().WithPayload(&postErr)
 		logrus.Warnf(postErr.Message)
+		return api.NewRegisterUserBadRequest().WithPayload(&postErr)
 	}
 	postErr := utils.ParseStatus(*postStatus)
 	if postErr == nil {
 		logrus.Infoln("The user has been created in the DB:", *postStatus)
-		params.UserBody.Password = nil
-		params.UserBody.ID = postStatus
-		return api.NewRegisterUserOK().WithPayload(params.UserBody)
+		params.UserBody.Password = ""
+		params.UserBody.ID = *postStatus
+		// postErr.Code = 200
+		// postErr.Status = "Success"
+		// postErr.Message = "Registered Succesfully"
+		logrus.Println(".........................................")
+		registrationRes.Response = &models.Response{
+			Code:    200,
+			Status:  "Success",
+			Message: "Registered Successfully",
+		}
+		registrationRes.User = params.UserBody
+		logrus.Println(registrationRes.Response)
+		return api.NewRegisterUserOK().WithPayload(registrationRes)
 	}
 
 	return api.NewRegisterUserConflict().WithPayload(postErr)
@@ -65,14 +81,28 @@ func (u UserHandler) GetUsers(ctx context.Context, params api.GetUsersParams) mi
 	// 	}
 	// 	return api.NewGetUsersUnauthorized().WithPayload(&err)
 	// }
+	userResponse := &models.UserResponse{}
 	userList, err := u.userService.GetUsers()
 	if err != nil {
 		postErr := fmt.Errorf("failed to get the users: %w", err)
 		logrus.Warnf(postErr.Error())
+		responseErr := &models.Response{
+			Status:  "Failed",
+			Code:    400,
+			Message: postErr.Error(),
+		}
+		return api.NewGetUsersBadRequest().WithPayload(responseErr)
 	}
-	logrus.Infoln("The user has been created in the DB:", userList)
 
-	return api.NewGetUsersOK().WithPayload(userList)
+	logrus.Infoln("We get the User List:", userList)
+	userResponse.Response = &models.Response{
+		Code:    200,
+		Status:  "Success",
+		Message: "Users has been fetched Successfully",
+	}
+	userResponse.Users = userList
+
+	return api.NewGetUsersOK().WithPayload(userResponse)
 }
 
 //GetUserbyID pulls the user information By its id
@@ -84,14 +114,29 @@ func (u UserHandler) GetUserbyID(ctx context.Context, params api.GetUserbyIDPara
 	// 	}
 	// 	return api.NewGetUserbyIDUnauthorized().WithPayload(&err)
 	// }
+	userResponse := &models.RegistrationResponse{}
 	user, err := u.userService.GetUserByID(params.ID)
 	if err != nil {
 		postErr := fmt.Errorf("failed to get the users: %w", err)
 		logrus.Warnf(postErr.Error())
-	}
-	logrus.Infoln("The user has been created in the DB:", user)
+		getUserErr := &models.Response{
+			Status:  "Failed",
+			Code:    400,
+			Message: postErr.Error(),
+		}
+		return api.NewGetUserbyIDBadRequest().WithPayload(getUserErr)
 
-	return api.NewGetUserbyIDOK().WithPayload(user)
+	}
+	userResponse.Response = &models.Response{
+		Code:    200,
+		Status:  "Success",
+		Message: "User has been fetched Successfully",
+	}
+	userResponse.User = user
+
+	logrus.Infoln("The user has been fetched:", user)
+
+	return api.NewGetUserbyIDOK().WithPayload(userResponse)
 }
 
 //UpdateUserbyID -> updates the user information By its id
@@ -103,23 +148,32 @@ func (u UserHandler) UpdateUserbyID(ctx context.Context, params api.UpdateUserby
 	// 	}
 	// 	return api.NewUpdateUserbyIDUnauthorized().WithPayload(&err)
 	// }
+	editResponse := &models.RegistrationResponse{}
+	params.UserBody.ID = params.ID
 	editStatus, err := u.userService.UpdateUserByID(params.UserBody)
 
-	fmt.Println("editStatus:", *editStatus)
+	fmt.Println("editStatus:", editStatus)
 	if err != nil {
-		editErr := models.Error{
-			Status:  400,
+		editErr := models.Response{
+			Code:    400,
+			Status:  "Failed",
 			Message: err.Error(),
 		}
-		return api.NewUpdateUserbyIDBadRequest().WithPayload(&editErr)
 		logrus.Warnf(editErr.Message)
+		return api.NewUpdateUserbyIDBadRequest().WithPayload(&editErr)
 	}
 	editErr := utils.ParseStatus(*editStatus)
 	if editErr == nil {
 		logrus.Infoln("The user has been updated in the DB:", *editStatus)
-		params.UserBody.Password = nil
-		params.UserBody.ID = editStatus
-		return api.NewUpdateUserbyIDOK().WithPayload(params.UserBody)
+		params.UserBody.Password = ""
+		params.UserBody.ID = *editStatus
+		editResponse.Response = &models.Response{
+			Code:    200,
+			Status:  "Success",
+			Message: "Edited Successfully",
+		}
+		editResponse.User = params.UserBody
+		return api.NewUpdateUserbyIDOK().WithPayload(editResponse)
 	}
 
 	return api.NewUpdateUserbyIDConflict().WithPayload(editErr)
@@ -136,17 +190,19 @@ func (u UserHandler) DeleteUserbyID(ctx context.Context, params api.DeleteUserby
 	// }
 	status, err := u.userService.DeleteUserByID(params.ID)
 	if err != nil {
-		postErr := fmt.Errorf("failed to get the users: %w", err)
+		postErr := fmt.Errorf("Deletion of the user failed: %w", err)
 		logrus.Warnf(postErr.Error())
-		Errstatus := models.Error{}
-		Errstatus.Status = 500
+		Errstatus := models.Response{}
+		Errstatus.Code = 500
+		Errstatus.Status = "Failed"
 		Errstatus.Message = postErr.Error()
 		return api.NewDeleteUserbyIDInternalServerError().WithPayload(&Errstatus)
 	}
-	modelStatus := models.Error{}
+	modelStatus := models.Response{}
 	if status {
 		logrus.Infoln("The user has been deleted in the DB:", status)
-		modelStatus.Status = 200
+		modelStatus.Code = 200
+		modelStatus.Status = "Success"
 		modelStatus.Message = "The user has been deleted from the DB"
 	}
 

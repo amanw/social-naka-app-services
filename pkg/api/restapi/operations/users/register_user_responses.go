@@ -25,7 +25,7 @@ type RegisterUserOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.User `json:"body,omitempty"`
+	Payload *models.RegistrationResponse `json:"body,omitempty"`
 }
 
 // NewRegisterUserOK creates RegisterUserOK with default headers values
@@ -35,13 +35,13 @@ func NewRegisterUserOK() *RegisterUserOK {
 }
 
 // WithPayload adds the payload to the register user o k response
-func (o *RegisterUserOK) WithPayload(payload *models.User) *RegisterUserOK {
+func (o *RegisterUserOK) WithPayload(payload *models.RegistrationResponse) *RegisterUserOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user o k response
-func (o *RegisterUserOK) SetPayload(payload *models.User) {
+func (o *RegisterUserOK) SetPayload(payload *models.RegistrationResponse) {
 	o.Payload = payload
 }
 
@@ -69,7 +69,7 @@ type RegisterUserBadRequest struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewRegisterUserBadRequest creates RegisterUserBadRequest with default headers values
@@ -79,13 +79,13 @@ func NewRegisterUserBadRequest() *RegisterUserBadRequest {
 }
 
 // WithPayload adds the payload to the register user bad request response
-func (o *RegisterUserBadRequest) WithPayload(payload *models.Error) *RegisterUserBadRequest {
+func (o *RegisterUserBadRequest) WithPayload(payload *models.Response) *RegisterUserBadRequest {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user bad request response
-func (o *RegisterUserBadRequest) SetPayload(payload *models.Error) {
+func (o *RegisterUserBadRequest) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -113,7 +113,7 @@ type RegisterUserUnauthorized struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewRegisterUserUnauthorized creates RegisterUserUnauthorized with default headers values
@@ -123,13 +123,13 @@ func NewRegisterUserUnauthorized() *RegisterUserUnauthorized {
 }
 
 // WithPayload adds the payload to the register user unauthorized response
-func (o *RegisterUserUnauthorized) WithPayload(payload *models.Error) *RegisterUserUnauthorized {
+func (o *RegisterUserUnauthorized) WithPayload(payload *models.Response) *RegisterUserUnauthorized {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user unauthorized response
-func (o *RegisterUserUnauthorized) SetPayload(payload *models.Error) {
+func (o *RegisterUserUnauthorized) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -157,7 +157,7 @@ type RegisterUserNotFound struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewRegisterUserNotFound creates RegisterUserNotFound with default headers values
@@ -167,13 +167,13 @@ func NewRegisterUserNotFound() *RegisterUserNotFound {
 }
 
 // WithPayload adds the payload to the register user not found response
-func (o *RegisterUserNotFound) WithPayload(payload *models.Error) *RegisterUserNotFound {
+func (o *RegisterUserNotFound) WithPayload(payload *models.Response) *RegisterUserNotFound {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user not found response
-func (o *RegisterUserNotFound) SetPayload(payload *models.Error) {
+func (o *RegisterUserNotFound) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -201,7 +201,7 @@ type RegisterUserConflict struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewRegisterUserConflict creates RegisterUserConflict with default headers values
@@ -211,13 +211,13 @@ func NewRegisterUserConflict() *RegisterUserConflict {
 }
 
 // WithPayload adds the payload to the register user conflict response
-func (o *RegisterUserConflict) WithPayload(payload *models.Error) *RegisterUserConflict {
+func (o *RegisterUserConflict) WithPayload(payload *models.Response) *RegisterUserConflict {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user conflict response
-func (o *RegisterUserConflict) SetPayload(payload *models.Error) {
+func (o *RegisterUserConflict) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -245,7 +245,7 @@ type RegisterUserInternalServerError struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewRegisterUserInternalServerError creates RegisterUserInternalServerError with default headers values
@@ -255,13 +255,13 @@ func NewRegisterUserInternalServerError() *RegisterUserInternalServerError {
 }
 
 // WithPayload adds the payload to the register user internal server error response
-func (o *RegisterUserInternalServerError) WithPayload(payload *models.Error) *RegisterUserInternalServerError {
+func (o *RegisterUserInternalServerError) WithPayload(payload *models.Response) *RegisterUserInternalServerError {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the register user internal server error response
-func (o *RegisterUserInternalServerError) SetPayload(payload *models.Error) {
+func (o *RegisterUserInternalServerError) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 

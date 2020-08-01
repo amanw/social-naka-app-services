@@ -25,7 +25,7 @@ type GetUsersOK struct {
 	/*
 	  In: Body
 	*/
-	Payload []*models.User `json:"body,omitempty"`
+	Payload *models.UserResponse `json:"body,omitempty"`
 }
 
 // NewGetUsersOK creates GetUsersOK with default headers values
@@ -35,13 +35,13 @@ func NewGetUsersOK() *GetUsersOK {
 }
 
 // WithPayload adds the payload to the get users o k response
-func (o *GetUsersOK) WithPayload(payload []*models.User) *GetUsersOK {
+func (o *GetUsersOK) WithPayload(payload *models.UserResponse) *GetUsersOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get users o k response
-func (o *GetUsersOK) SetPayload(payload []*models.User) {
+func (o *GetUsersOK) SetPayload(payload *models.UserResponse) {
 	o.Payload = payload
 }
 
@@ -49,14 +49,11 @@ func (o *GetUsersOK) SetPayload(payload []*models.User) {
 func (o *GetUsersOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = make([]*models.User, 0, 50)
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 
@@ -72,7 +69,7 @@ type GetUsersBadRequest struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUsersBadRequest creates GetUsersBadRequest with default headers values
@@ -82,13 +79,13 @@ func NewGetUsersBadRequest() *GetUsersBadRequest {
 }
 
 // WithPayload adds the payload to the get users bad request response
-func (o *GetUsersBadRequest) WithPayload(payload *models.Error) *GetUsersBadRequest {
+func (o *GetUsersBadRequest) WithPayload(payload *models.Response) *GetUsersBadRequest {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get users bad request response
-func (o *GetUsersBadRequest) SetPayload(payload *models.Error) {
+func (o *GetUsersBadRequest) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -116,7 +113,7 @@ type GetUsersUnauthorized struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUsersUnauthorized creates GetUsersUnauthorized with default headers values
@@ -126,13 +123,13 @@ func NewGetUsersUnauthorized() *GetUsersUnauthorized {
 }
 
 // WithPayload adds the payload to the get users unauthorized response
-func (o *GetUsersUnauthorized) WithPayload(payload *models.Error) *GetUsersUnauthorized {
+func (o *GetUsersUnauthorized) WithPayload(payload *models.Response) *GetUsersUnauthorized {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get users unauthorized response
-func (o *GetUsersUnauthorized) SetPayload(payload *models.Error) {
+func (o *GetUsersUnauthorized) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -160,7 +157,7 @@ type GetUsersNotFound struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUsersNotFound creates GetUsersNotFound with default headers values
@@ -170,13 +167,13 @@ func NewGetUsersNotFound() *GetUsersNotFound {
 }
 
 // WithPayload adds the payload to the get users not found response
-func (o *GetUsersNotFound) WithPayload(payload *models.Error) *GetUsersNotFound {
+func (o *GetUsersNotFound) WithPayload(payload *models.Response) *GetUsersNotFound {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get users not found response
-func (o *GetUsersNotFound) SetPayload(payload *models.Error) {
+func (o *GetUsersNotFound) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -204,7 +201,7 @@ type GetUsersInternalServerError struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewGetUsersInternalServerError creates GetUsersInternalServerError with default headers values
@@ -214,13 +211,13 @@ func NewGetUsersInternalServerError() *GetUsersInternalServerError {
 }
 
 // WithPayload adds the payload to the get users internal server error response
-func (o *GetUsersInternalServerError) WithPayload(payload *models.Error) *GetUsersInternalServerError {
+func (o *GetUsersInternalServerError) WithPayload(payload *models.Response) *GetUsersInternalServerError {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get users internal server error response
-func (o *GetUsersInternalServerError) SetPayload(payload *models.Error) {
+func (o *GetUsersInternalServerError) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 

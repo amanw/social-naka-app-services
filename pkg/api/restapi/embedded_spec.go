@@ -35,6 +35,255 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/events": {
+      "get": {
+        "description": "It gets all the Events\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Get all the Events",
+        "operationId": "getEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "description": "It gets the event information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Gets a event by ID.",
+        "operationId": "getEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "description": "It delets the event information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Deletes a event by ID.",
+        "operationId": "deleteEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Status"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      },
+      "patch": {
+        "description": "It updates the user information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Updates an event by ID.",
+        "operationId": "updateEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Event Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/loginUser": {
+      "post": {
+        "description": "It logins the User\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "login"
+        ],
+        "summary": "Logins the User",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "Login Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/loginUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/responses/Status"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/postEvent": {
+      "post": {
+        "description": "It registers the Event\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Post the Event",
+        "operationId": "postEvent",
+        "parameters": [
+          {
+            "name": "Event Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
     "/registerUser": {
       "post": {
         "description": "It registers the User\n",
@@ -62,7 +311,7 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
@@ -98,10 +347,7 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/user"
-              }
+              "$ref": "#/definitions/userResponse"
             }
           },
           "400": {
@@ -143,7 +389,7 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
@@ -227,7 +473,7 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
@@ -250,31 +496,105 @@ func init() {
     }
   },
   "definitions": {
-    "error": {
+    "event": {
       "type": "object",
       "properties": {
+        "approver_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "event_date": {
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "event_description": {
+          "type": "string"
+        },
+        "event_location": {
+          "type": "string"
+        },
+        "event_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "is_verified": {
+          "type": "boolean"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "eventResponse": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "#/definitions/event"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/event"
+          }
+        },
+        "response": {
+          "$ref": "#/definitions/response"
+        }
+      }
+    },
+    "loginUser": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "registrationResponse": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/definitions/response"
+        },
+        "user": {
+          "$ref": "#/definitions/user"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
         "message": {
           "type": "string"
         },
         "status": {
-          "type": "integer"
+          "type": "string"
         }
       }
     },
     "user": {
       "type": "object",
-      "required": [
-        "id",
-        "first_name",
-        "last_name",
-        "email_address",
-        "mobile_no",
-        "dob",
-        "sex",
-        "username",
-        "password",
-        "location"
-      ],
       "properties": {
         "created_at": {
           "type": "string"
@@ -284,12 +604,16 @@ func init() {
         },
         "dob": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "x-nullable": true
         },
         "email_address": {
           "type": "string"
         },
         "first_name": {
+          "type": "string"
+        },
+        "house_name": {
           "type": "string"
         },
         "id": {
@@ -326,43 +650,57 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/definitions/response"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/user"
+          }
+        }
+      }
     }
   },
   "responses": {
     "BadRequest": {
       "description": "The api is Unauthorized",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "InternalServerError": {
       "description": "Internal Server Error",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "NotFound": {
       "description": "The api is not found",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "Status": {
       "description": "API Custom Status",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "UnauthorizedError": {
       "description": "The api is Unauthorized",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "UserExists": {
       "description": "The user already exists",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     }
   },
@@ -392,6 +730,333 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/events": {
+      "get": {
+        "description": "It gets all the Events\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Get all the Events",
+        "operationId": "getEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "description": "It gets the event information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Gets a event by ID.",
+        "operationId": "getEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "It delets the event information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Deletes a event by ID.",
+        "operationId": "deleteEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API Custom Status",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "It updates the user information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Updates an event by ID.",
+        "operationId": "updateEventbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Event ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Event Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/loginUser": {
+      "post": {
+        "description": "It logins the User\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "login"
+        ],
+        "summary": "Logins the User",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "Login Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/loginUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "API Custom Status",
+              "schema": {
+                "$ref": "#/definitions/response"
+              }
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/postEvent": {
+      "post": {
+        "description": "It registers the Event\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "events"
+        ],
+        "summary": "Post the Event",
+        "operationId": "postEvent",
+        "parameters": [
+          {
+            "name": "Event Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
     "/registerUser": {
       "post": {
         "description": "It registers the User\n",
@@ -419,37 +1084,37 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "401": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "404": {
             "description": "The api is not found",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "409": {
             "description": "The user already exists",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "500": {
             "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           }
         }
@@ -470,34 +1135,31 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/user"
-              }
+              "$ref": "#/definitions/userResponse"
             }
           },
           "400": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "401": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "404": {
             "description": "The api is not found",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "500": {
             "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           }
         }
@@ -527,31 +1189,31 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "401": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "404": {
             "description": "The api is not found",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "500": {
             "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           }
         }
@@ -579,31 +1241,31 @@ func init() {
           "200": {
             "description": "API Custom Status",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "400": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "401": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "404": {
             "description": "The api is not found",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "500": {
             "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           }
         }
@@ -638,37 +1300,37 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/user"
+              "$ref": "#/definitions/registrationResponse"
             }
           },
           "400": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "401": {
             "description": "The api is Unauthorized",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "404": {
             "description": "The api is not found",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "409": {
             "description": "The user already exists",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           },
           "500": {
             "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/response"
             }
           }
         }
@@ -676,31 +1338,105 @@ func init() {
     }
   },
   "definitions": {
-    "error": {
+    "event": {
       "type": "object",
       "properties": {
+        "approver_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "event_date": {
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "event_description": {
+          "type": "string"
+        },
+        "event_location": {
+          "type": "string"
+        },
+        "event_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "is_verified": {
+          "type": "boolean"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "eventResponse": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "#/definitions/event"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/event"
+          }
+        },
+        "response": {
+          "$ref": "#/definitions/response"
+        }
+      }
+    },
+    "loginUser": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "registrationResponse": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/definitions/response"
+        },
+        "user": {
+          "$ref": "#/definitions/user"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
         "message": {
           "type": "string"
         },
         "status": {
-          "type": "integer"
+          "type": "string"
         }
       }
     },
     "user": {
       "type": "object",
-      "required": [
-        "id",
-        "first_name",
-        "last_name",
-        "email_address",
-        "mobile_no",
-        "dob",
-        "sex",
-        "username",
-        "password",
-        "location"
-      ],
       "properties": {
         "created_at": {
           "type": "string"
@@ -710,12 +1446,16 @@ func init() {
         },
         "dob": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "x-nullable": true
         },
         "email_address": {
           "type": "string"
         },
         "first_name": {
+          "type": "string"
+        },
+        "house_name": {
           "type": "string"
         },
         "id": {
@@ -752,43 +1492,57 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/definitions/response"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/user"
+          }
+        }
+      }
     }
   },
   "responses": {
     "BadRequest": {
       "description": "The api is Unauthorized",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "InternalServerError": {
       "description": "Internal Server Error",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "NotFound": {
       "description": "The api is not found",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "Status": {
       "description": "API Custom Status",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "UnauthorizedError": {
       "description": "The api is Unauthorized",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     },
     "UserExists": {
       "description": "The user already exists",
       "schema": {
-        "$ref": "#/definitions/error"
+        "$ref": "#/definitions/response"
       }
     }
   },

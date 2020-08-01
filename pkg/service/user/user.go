@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/amanw/social-naka-app-services/pkg/api/models"
+	"github.com/amanw/social-naka-app-services/pkg/api/utils"
 	"github.com/amanw/social-naka-app-services/pkg/domain"
-	"golang.org/x/crypto/bcrypt"
 )
 
 //Service -> User Service
@@ -26,18 +26,9 @@ func NewService(userRepo domain.UserRepo) (*Service, error) {
 
 //CreateUser -> This service helps user to create the user in the db
 func (svc *Service) CreateUser(req *models.User) (*string, error) {
-	var err error
-	var pass string
-
-	if req.Password != nil {
-		pass = *req.Password
-	}
-
-	*req.Password, err = EncryptPass([]byte(pass))
-
-	if err != nil {
-		return nil, err
-	}
+	pass := utils.GetPwd(req.Password)
+	hash := utils.HashAndSalt(pass)
+	req.Password = hash
 
 	response, respErr := svc.svcdb.CreateNewUser(req)
 	if respErr != nil {
@@ -76,15 +67,12 @@ func (svc *Service) GetUserByID(id string) (*models.User, error) {
 
 //UpdateUserByID -> This service updates the user information By Id
 func (svc *Service) UpdateUserByID(req *models.User) (*string, error) {
-	var err error
-	var pass string
 
-	if req.Password != nil {
-		pass = *req.Password
+	if req.Password != "" {
+		pass := utils.GetPwd(req.Password)
+		hash := utils.HashAndSalt(pass)
+		req.Password = hash
 	}
-
-	*req.Password, err = EncryptPass([]byte(pass))
-
 	response, err := svc.svcdb.EditUser(req)
 
 	if err != nil {
@@ -106,16 +94,4 @@ func (svc *Service) DeleteUserByID(id string) (bool, error) {
 
 	return response, nil
 
-}
-
-//EncryptPass -> hashes the password
-func EncryptPass(pass []byte) (string, error) {
-	var err error
-
-	encryptPass, passErr := bcrypt.GenerateFromPassword(pass, bcrypt.DefaultCost)
-	if passErr != nil {
-		err = fmt.Errorf("Failed Encrypting the password %w", passErr)
-	}
-
-	return string(encryptPass), err
 }

@@ -7,6 +7,9 @@ import (
 	"time"
 
 	"github.com/amanw/social-naka-app-services/pkg/api/models"
+	"github.com/amanw/social-naka-app-services/pkg/api/utils"
+	repo "github.com/amanw/social-naka-app-services/pkg/repo/models"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -20,7 +23,7 @@ func (db *MongoDB) CreateNewUser(user *models.User) (*string, error) {
 	var userStatus string
 	var checkErr error
 	if user != nil {
-		userStatus, checkErr = db.CheckUser(*user.Username, *user.EmailAddress, *user.MobileNo)
+		userStatus, checkErr = db.CheckUser(user.Username, user.EmailAddress, user.MobileNo)
 		if checkErr != nil {
 			log.Printf("Error while checking if the user exists, Reason: %v\n", checkErr)
 		}
@@ -39,7 +42,7 @@ func (db *MongoDB) CreateNewUser(user *models.User) (*string, error) {
 		if userErr != nil {
 			log.Printf("Error while getting a single todo, Reason: %v\n", userErr)
 		}
-		decodedUser.ID = &strID
+		decodedUser.ID = strID
 		str, err := db.EditUser(decodedUser)
 		if err != nil {
 			log.Printf("Edit Error, Reason: %v\n", err)
@@ -54,7 +57,6 @@ func (db *MongoDB) CreateNewUser(user *models.User) (*string, error) {
 func (db *MongoDB) GetAllUsers() ([]*models.User, error) {
 
 	var user *models.User
-	var repoUser *User
 	users := []*models.User{}
 
 	cursor, err := db.DB.Collection(UserCollection).Find(context.Background(), bson.M{})
@@ -67,12 +69,9 @@ func (db *MongoDB) GetAllUsers() ([]*models.User, error) {
 
 	// Iterate through the returned cursor.
 	for cursor.Next(context.Background()) {
+		var repoUser *repo.User
 		cursor.Decode(&repoUser)
-		if repoUser != nil {
-			cursor.Decode(&user)
-			ID := repoUser.ID.Hex()
-			user.ID = &ID
-		}
+		user = utils.ParseUser(*repoUser)
 		users = append(users, user)
 	}
 
@@ -81,24 +80,21 @@ func (db *MongoDB) GetAllUsers() ([]*models.User, error) {
 
 // GetSingleUser -> Get the Single user from the db.
 func (db *MongoDB) GetSingleUser(id string) (*models.User, error) {
-
 	user := &models.User{}
-	repoUser := &User{}
+	repoUser := &repo.User{}
 	docID, docErr := primitive.ObjectIDFromHex(id)
 	if docErr != nil {
 		log.Printf("Error while getting the DOCID, Reason: %v\n", docErr)
 	}
 	result := db.DB.Collection(UserCollection).FindOne(context.Background(), bson.M{"_id": docID})
 	if result.Err() == nil {
-		result.Decode(&user)
 		result.Decode(&repoUser)
 	}
 	if result.Err() != nil {
 		return nil, result.Err()
 	}
-	if user != nil {
-		ID := repoUser.ID.Hex()
-		user.ID = &ID
+	if repoUser != nil {
+		user = utils.ParseUser(*repoUser)
 	}
 
 	return user, nil
@@ -109,18 +105,20 @@ func (db *MongoDB) EditUser(req *models.User) (*string, error) {
 	var userStatus string
 	var checkErr error
 	if req != nil {
-		userObj, err := db.GetSingleUser(*req.ID)
+		userObj, err := db.GetSingleUser(req.ID)
+		req = utils.SetEditUser(req, userObj)
+		logrus.Printf("req, %+v", req)
 		req.CreatedAt = *&userObj.CreatedAt
 		if err != nil {
 			log.Printf("Error while getting the user: %v", err)
 		}
-		if *req.Username != *userObj.Username {
-			userStatus, checkErr = db.CheckUser(*req.Username, "", "")
-		} else if *req.EmailAddress != *userObj.EmailAddress {
-			userStatus, checkErr = db.CheckUser("", *req.EmailAddress, "")
+		if req.Username != userObj.Username {
+			userStatus, checkErr = db.CheckUser(req.Username, "", "")
+		} else if req.EmailAddress != userObj.EmailAddress {
+			userStatus, checkErr = db.CheckUser("", req.EmailAddress, "")
 
-		} else if *req.MobileNo != *userObj.MobileNo {
-			userStatus, checkErr = db.CheckUser("", "", *req.MobileNo)
+		} else if req.MobileNo != userObj.MobileNo {
+			userStatus, checkErr = db.CheckUser("", "", req.MobileNo)
 		} else {
 			userStatus = "NE"
 		}
@@ -130,15 +128,17 @@ func (db *MongoDB) EditUser(req *models.User) (*string, error) {
 	}
 
 	if userStatus == "NE" {
-		userID := *req.ID
+		userID := req.ID
 		docID, docErr := primitive.ObjectIDFromHex(userID)
-
+		// user, err := db.GetSingleUser(req.ID)
+		// if err != nil {
+		// 	logrus.Errorf("ERROR, %+v", err)
+		// }
 		if docErr != nil {
 			fmt.Printf("Error while getting the DOCID, Reason: %v\n", docErr)
 		}
 
 		req.UpdatedAt = time.Now().String()
-
 		filter := bson.M{"_id": docID}
 		update := bson.M{
 			"$set": req,
@@ -155,13 +155,13 @@ func (db *MongoDB) EditUser(req *models.User) (*string, error) {
 		if result.Err() != nil {
 			return nil, result.Err()
 		}
-		doc := User{}
+		doc := repo.User{}
 		decodeErr := result.Decode(&doc)
 		if decodeErr != nil {
-			fmt.Errorf("Error while decoding the object %+v", decodeErr)
+			logrus.Errorf("Error while decoding the object %+v", decodeErr)
 		}
 
-		fmt.Println("%+v", doc)
+		fmt.Printf("%+v", doc)
 		ID := doc.ID.Hex()
 
 		return &ID, nil
@@ -216,4 +216,51 @@ func (db *MongoDB) CheckUser(userName, userEmail, mobileNo string) (string, erro
 	}
 
 	return status, nil
+}
+
+//LoginUser -> Checks if username, email or mobileno with password exists
+func (db *MongoDB) LoginUser(loginModel *models.LoginUser) (bool, error) {
+	passwordFilter := bson.M{
+		"$or": []bson.M{
+			{"username": *loginModel.Username},
+			{"emailaddress": *loginModel.Username},
+			{"mobileno": *loginModel.Username},
+		},
+	}
+	result := db.DB.Collection(UserCollection).FindOne(context.Background(), passwordFilter)
+	if result.Err() != nil {
+		return false, result.Err()
+	}
+	doc := repo.User{}
+	decodeErr := result.Decode(&doc)
+	if decodeErr != nil {
+		logrus.Errorf("Error while decoding the object %+v", decodeErr)
+	}
+	pass := utils.GetPwd(*loginModel.Password)
+	checkPassword := utils.ComparePasswords(doc.Password, pass)
+	if checkPassword {
+		logrus.Println("The password has been matched")
+	}
+
+	filter := bson.M{
+		"$or": []bson.M{
+			{"username": *loginModel.Username},
+			{"emailaddress": *loginModel.Username},
+			{"mobileno": *loginModel.Username},
+		},
+		"$and": []bson.M{
+			{"isactive": true},
+		},
+	}
+
+	loginCount, err := db.DB.Collection(UserCollection).CountDocuments(context.Background(), filter)
+	logrus.Println("Login", loginCount)
+	if err != nil {
+		return false, err
+	}
+	if loginCount == 1 {
+		return true, nil
+	}
+
+	return false, nil
 }

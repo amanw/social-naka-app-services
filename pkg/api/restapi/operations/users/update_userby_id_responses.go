@@ -25,7 +25,7 @@ type UpdateUserbyIDOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.User `json:"body,omitempty"`
+	Payload *models.RegistrationResponse `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDOK creates UpdateUserbyIDOK with default headers values
@@ -35,13 +35,13 @@ func NewUpdateUserbyIDOK() *UpdateUserbyIDOK {
 }
 
 // WithPayload adds the payload to the update userby Id o k response
-func (o *UpdateUserbyIDOK) WithPayload(payload *models.User) *UpdateUserbyIDOK {
+func (o *UpdateUserbyIDOK) WithPayload(payload *models.RegistrationResponse) *UpdateUserbyIDOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id o k response
-func (o *UpdateUserbyIDOK) SetPayload(payload *models.User) {
+func (o *UpdateUserbyIDOK) SetPayload(payload *models.RegistrationResponse) {
 	o.Payload = payload
 }
 
@@ -69,7 +69,7 @@ type UpdateUserbyIDBadRequest struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDBadRequest creates UpdateUserbyIDBadRequest with default headers values
@@ -79,13 +79,13 @@ func NewUpdateUserbyIDBadRequest() *UpdateUserbyIDBadRequest {
 }
 
 // WithPayload adds the payload to the update userby Id bad request response
-func (o *UpdateUserbyIDBadRequest) WithPayload(payload *models.Error) *UpdateUserbyIDBadRequest {
+func (o *UpdateUserbyIDBadRequest) WithPayload(payload *models.Response) *UpdateUserbyIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id bad request response
-func (o *UpdateUserbyIDBadRequest) SetPayload(payload *models.Error) {
+func (o *UpdateUserbyIDBadRequest) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -113,7 +113,7 @@ type UpdateUserbyIDUnauthorized struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDUnauthorized creates UpdateUserbyIDUnauthorized with default headers values
@@ -123,13 +123,13 @@ func NewUpdateUserbyIDUnauthorized() *UpdateUserbyIDUnauthorized {
 }
 
 // WithPayload adds the payload to the update userby Id unauthorized response
-func (o *UpdateUserbyIDUnauthorized) WithPayload(payload *models.Error) *UpdateUserbyIDUnauthorized {
+func (o *UpdateUserbyIDUnauthorized) WithPayload(payload *models.Response) *UpdateUserbyIDUnauthorized {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id unauthorized response
-func (o *UpdateUserbyIDUnauthorized) SetPayload(payload *models.Error) {
+func (o *UpdateUserbyIDUnauthorized) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -157,7 +157,7 @@ type UpdateUserbyIDNotFound struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDNotFound creates UpdateUserbyIDNotFound with default headers values
@@ -167,13 +167,13 @@ func NewUpdateUserbyIDNotFound() *UpdateUserbyIDNotFound {
 }
 
 // WithPayload adds the payload to the update userby Id not found response
-func (o *UpdateUserbyIDNotFound) WithPayload(payload *models.Error) *UpdateUserbyIDNotFound {
+func (o *UpdateUserbyIDNotFound) WithPayload(payload *models.Response) *UpdateUserbyIDNotFound {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id not found response
-func (o *UpdateUserbyIDNotFound) SetPayload(payload *models.Error) {
+func (o *UpdateUserbyIDNotFound) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -201,7 +201,7 @@ type UpdateUserbyIDConflict struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDConflict creates UpdateUserbyIDConflict with default headers values
@@ -211,13 +211,13 @@ func NewUpdateUserbyIDConflict() *UpdateUserbyIDConflict {
 }
 
 // WithPayload adds the payload to the update userby Id conflict response
-func (o *UpdateUserbyIDConflict) WithPayload(payload *models.Error) *UpdateUserbyIDConflict {
+func (o *UpdateUserbyIDConflict) WithPayload(payload *models.Response) *UpdateUserbyIDConflict {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id conflict response
-func (o *UpdateUserbyIDConflict) SetPayload(payload *models.Error) {
+func (o *UpdateUserbyIDConflict) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -245,7 +245,7 @@ type UpdateUserbyIDInternalServerError struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewUpdateUserbyIDInternalServerError creates UpdateUserbyIDInternalServerError with default headers values
@@ -255,13 +255,13 @@ func NewUpdateUserbyIDInternalServerError() *UpdateUserbyIDInternalServerError {
 }
 
 // WithPayload adds the payload to the update userby Id internal server error response
-func (o *UpdateUserbyIDInternalServerError) WithPayload(payload *models.Error) *UpdateUserbyIDInternalServerError {
+func (o *UpdateUserbyIDInternalServerError) WithPayload(payload *models.Response) *UpdateUserbyIDInternalServerError {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the update userby Id internal server error response
-func (o *UpdateUserbyIDInternalServerError) SetPayload(payload *models.Error) {
+func (o *UpdateUserbyIDInternalServerError) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 

@@ -25,7 +25,7 @@ type DeleteUserbyIDOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewDeleteUserbyIDOK creates DeleteUserbyIDOK with default headers values
@@ -35,13 +35,13 @@ func NewDeleteUserbyIDOK() *DeleteUserbyIDOK {
 }
 
 // WithPayload adds the payload to the delete userby Id o k response
-func (o *DeleteUserbyIDOK) WithPayload(payload *models.Error) *DeleteUserbyIDOK {
+func (o *DeleteUserbyIDOK) WithPayload(payload *models.Response) *DeleteUserbyIDOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete userby Id o k response
-func (o *DeleteUserbyIDOK) SetPayload(payload *models.Error) {
+func (o *DeleteUserbyIDOK) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -69,7 +69,7 @@ type DeleteUserbyIDBadRequest struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewDeleteUserbyIDBadRequest creates DeleteUserbyIDBadRequest with default headers values
@@ -79,13 +79,13 @@ func NewDeleteUserbyIDBadRequest() *DeleteUserbyIDBadRequest {
 }
 
 // WithPayload adds the payload to the delete userby Id bad request response
-func (o *DeleteUserbyIDBadRequest) WithPayload(payload *models.Error) *DeleteUserbyIDBadRequest {
+func (o *DeleteUserbyIDBadRequest) WithPayload(payload *models.Response) *DeleteUserbyIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete userby Id bad request response
-func (o *DeleteUserbyIDBadRequest) SetPayload(payload *models.Error) {
+func (o *DeleteUserbyIDBadRequest) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -113,7 +113,7 @@ type DeleteUserbyIDUnauthorized struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewDeleteUserbyIDUnauthorized creates DeleteUserbyIDUnauthorized with default headers values
@@ -123,13 +123,13 @@ func NewDeleteUserbyIDUnauthorized() *DeleteUserbyIDUnauthorized {
 }
 
 // WithPayload adds the payload to the delete userby Id unauthorized response
-func (o *DeleteUserbyIDUnauthorized) WithPayload(payload *models.Error) *DeleteUserbyIDUnauthorized {
+func (o *DeleteUserbyIDUnauthorized) WithPayload(payload *models.Response) *DeleteUserbyIDUnauthorized {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete userby Id unauthorized response
-func (o *DeleteUserbyIDUnauthorized) SetPayload(payload *models.Error) {
+func (o *DeleteUserbyIDUnauthorized) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -157,7 +157,7 @@ type DeleteUserbyIDNotFound struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewDeleteUserbyIDNotFound creates DeleteUserbyIDNotFound with default headers values
@@ -167,13 +167,13 @@ func NewDeleteUserbyIDNotFound() *DeleteUserbyIDNotFound {
 }
 
 // WithPayload adds the payload to the delete userby Id not found response
-func (o *DeleteUserbyIDNotFound) WithPayload(payload *models.Error) *DeleteUserbyIDNotFound {
+func (o *DeleteUserbyIDNotFound) WithPayload(payload *models.Response) *DeleteUserbyIDNotFound {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete userby Id not found response
-func (o *DeleteUserbyIDNotFound) SetPayload(payload *models.Error) {
+func (o *DeleteUserbyIDNotFound) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 
@@ -201,7 +201,7 @@ type DeleteUserbyIDInternalServerError struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Error `json:"body,omitempty"`
+	Payload *models.Response `json:"body,omitempty"`
 }
 
 // NewDeleteUserbyIDInternalServerError creates DeleteUserbyIDInternalServerError with default headers values
@@ -211,13 +211,13 @@ func NewDeleteUserbyIDInternalServerError() *DeleteUserbyIDInternalServerError {
 }
 
 // WithPayload adds the payload to the delete userby Id internal server error response
-func (o *DeleteUserbyIDInternalServerError) WithPayload(payload *models.Error) *DeleteUserbyIDInternalServerError {
+func (o *DeleteUserbyIDInternalServerError) WithPayload(payload *models.Response) *DeleteUserbyIDInternalServerError {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete userby Id internal server error response
-func (o *DeleteUserbyIDInternalServerError) SetPayload(payload *models.Error) {
+func (o *DeleteUserbyIDInternalServerError) SetPayload(payload *models.Response) {
 	o.Payload = payload
 }
 

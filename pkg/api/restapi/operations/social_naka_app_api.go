@@ -19,6 +19,8 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/events"
+	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/login"
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/users"
 )
 
@@ -43,8 +45,17 @@ func NewSocialNakaAppAPI(spec *loads.Document) *SocialNakaAppAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		EventsDeleteEventbyIDHandler: events.DeleteEventbyIDHandlerFunc(func(params events.DeleteEventbyIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation events.DeleteEventbyID has not yet been implemented")
+		}),
 		UsersDeleteUserbyIDHandler: users.DeleteUserbyIDHandlerFunc(func(params users.DeleteUserbyIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.DeleteUserbyID has not yet been implemented")
+		}),
+		EventsGetEventbyIDHandler: events.GetEventbyIDHandlerFunc(func(params events.GetEventbyIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation events.GetEventbyID has not yet been implemented")
+		}),
+		EventsGetEventsHandler: events.GetEventsHandlerFunc(func(params events.GetEventsParams) middleware.Responder {
+			return middleware.NotImplemented("operation events.GetEvents has not yet been implemented")
 		}),
 		UsersGetUserbyIDHandler: users.GetUserbyIDHandlerFunc(func(params users.GetUserbyIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.GetUserbyID has not yet been implemented")
@@ -52,8 +63,17 @@ func NewSocialNakaAppAPI(spec *loads.Document) *SocialNakaAppAPI {
 		UsersGetUsersHandler: users.GetUsersHandlerFunc(func(params users.GetUsersParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.GetUsers has not yet been implemented")
 		}),
+		LoginLoginUserHandler: login.LoginUserHandlerFunc(func(params login.LoginUserParams) middleware.Responder {
+			return middleware.NotImplemented("operation login.LoginUser has not yet been implemented")
+		}),
+		EventsPostEventHandler: events.PostEventHandlerFunc(func(params events.PostEventParams) middleware.Responder {
+			return middleware.NotImplemented("operation events.PostEvent has not yet been implemented")
+		}),
 		UsersRegisterUserHandler: users.RegisterUserHandlerFunc(func(params users.RegisterUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.RegisterUser has not yet been implemented")
+		}),
+		EventsUpdateEventbyIDHandler: events.UpdateEventbyIDHandlerFunc(func(params events.UpdateEventbyIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation events.UpdateEventbyID has not yet been implemented")
 		}),
 		UsersUpdateUserbyIDHandler: users.UpdateUserbyIDHandlerFunc(func(params users.UpdateUserbyIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation users.UpdateUserbyID has not yet been implemented")
@@ -91,14 +111,26 @@ type SocialNakaAppAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// EventsDeleteEventbyIDHandler sets the operation handler for the delete eventby ID operation
+	EventsDeleteEventbyIDHandler events.DeleteEventbyIDHandler
 	// UsersDeleteUserbyIDHandler sets the operation handler for the delete userby ID operation
 	UsersDeleteUserbyIDHandler users.DeleteUserbyIDHandler
+	// EventsGetEventbyIDHandler sets the operation handler for the get eventby ID operation
+	EventsGetEventbyIDHandler events.GetEventbyIDHandler
+	// EventsGetEventsHandler sets the operation handler for the get events operation
+	EventsGetEventsHandler events.GetEventsHandler
 	// UsersGetUserbyIDHandler sets the operation handler for the get userby ID operation
 	UsersGetUserbyIDHandler users.GetUserbyIDHandler
 	// UsersGetUsersHandler sets the operation handler for the get users operation
 	UsersGetUsersHandler users.GetUsersHandler
+	// LoginLoginUserHandler sets the operation handler for the login user operation
+	LoginLoginUserHandler login.LoginUserHandler
+	// EventsPostEventHandler sets the operation handler for the post event operation
+	EventsPostEventHandler events.PostEventHandler
 	// UsersRegisterUserHandler sets the operation handler for the register user operation
 	UsersRegisterUserHandler users.RegisterUserHandler
+	// EventsUpdateEventbyIDHandler sets the operation handler for the update eventby ID operation
+	EventsUpdateEventbyIDHandler events.UpdateEventbyIDHandler
 	// UsersUpdateUserbyIDHandler sets the operation handler for the update userby ID operation
 	UsersUpdateUserbyIDHandler users.UpdateUserbyIDHandler
 	// ServeError is called when an error is received, there is a default handler
@@ -167,8 +199,17 @@ func (o *SocialNakaAppAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.EventsDeleteEventbyIDHandler == nil {
+		unregistered = append(unregistered, "events.DeleteEventbyIDHandler")
+	}
 	if o.UsersDeleteUserbyIDHandler == nil {
 		unregistered = append(unregistered, "users.DeleteUserbyIDHandler")
+	}
+	if o.EventsGetEventbyIDHandler == nil {
+		unregistered = append(unregistered, "events.GetEventbyIDHandler")
+	}
+	if o.EventsGetEventsHandler == nil {
+		unregistered = append(unregistered, "events.GetEventsHandler")
 	}
 	if o.UsersGetUserbyIDHandler == nil {
 		unregistered = append(unregistered, "users.GetUserbyIDHandler")
@@ -176,8 +217,17 @@ func (o *SocialNakaAppAPI) Validate() error {
 	if o.UsersGetUsersHandler == nil {
 		unregistered = append(unregistered, "users.GetUsersHandler")
 	}
+	if o.LoginLoginUserHandler == nil {
+		unregistered = append(unregistered, "login.LoginUserHandler")
+	}
+	if o.EventsPostEventHandler == nil {
+		unregistered = append(unregistered, "events.PostEventHandler")
+	}
 	if o.UsersRegisterUserHandler == nil {
 		unregistered = append(unregistered, "users.RegisterUserHandler")
+	}
+	if o.EventsUpdateEventbyIDHandler == nil {
+		unregistered = append(unregistered, "events.UpdateEventbyIDHandler")
 	}
 	if o.UsersUpdateUserbyIDHandler == nil {
 		unregistered = append(unregistered, "users.UpdateUserbyIDHandler")
@@ -273,7 +323,19 @@ func (o *SocialNakaAppAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
+	o.handlers["DELETE"]["/events/{id}"] = events.NewDeleteEventbyID(o.context, o.EventsDeleteEventbyIDHandler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
 	o.handlers["DELETE"]["/users/{id}"] = users.NewDeleteUserbyID(o.context, o.UsersDeleteUserbyIDHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/events/{id}"] = events.NewGetEventbyID(o.context, o.EventsGetEventbyIDHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/events"] = events.NewGetEvents(o.context, o.EventsGetEventsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -285,7 +347,19 @@ func (o *SocialNakaAppAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
+	o.handlers["POST"]["/loginUser"] = login.NewLoginUser(o.context, o.LoginLoginUserHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/postEvent"] = events.NewPostEvent(o.context, o.EventsPostEventHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
 	o.handlers["POST"]["/registerUser"] = users.NewRegisterUser(o.context, o.UsersRegisterUserHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/events/{id}"] = events.NewUpdateEventbyID(o.context, o.EventsUpdateEventbyIDHandler)
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
