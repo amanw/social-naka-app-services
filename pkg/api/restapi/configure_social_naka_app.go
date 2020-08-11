@@ -16,6 +16,7 @@ import (
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations"
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/events"
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/login"
+	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/posts"
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi/operations/users"
 )
 
@@ -53,6 +54,27 @@ type LoginAPI interface {
 	LoginUser(ctx context.Context, params login.LoginUserParams) middleware.Responder
 }
 
+//go:generate mockery -name PostsAPI -inpkg
+
+// PostsAPI
+type PostsAPI interface {
+	// CreatePost is It registers the Post
+
+	CreatePost(ctx context.Context, params posts.CreatePostParams) middleware.Responder
+	// DeletePostbyID is It delets the post information details by ID
+
+	DeletePostbyID(ctx context.Context, params posts.DeletePostbyIDParams) middleware.Responder
+	// GetPostbyID is It gets the post information details by ID
+
+	GetPostbyID(ctx context.Context, params posts.GetPostbyIDParams) middleware.Responder
+	// GetPosts is It gets all the Posts
+
+	GetPosts(ctx context.Context, params posts.GetPostsParams) middleware.Responder
+	// UpdatePostbyID is It updates the user information details by ID
+
+	UpdatePostbyID(ctx context.Context, params posts.UpdatePostbyIDParams) middleware.Responder
+}
+
 //go:generate mockery -name UsersAPI -inpkg
 
 // UsersAPI
@@ -78,6 +100,7 @@ type UsersAPI interface {
 type Config struct {
 	EventsAPI
 	LoginAPI
+	PostsAPI
 	UsersAPI
 	Logger func(string, ...interface{})
 	// InnerMiddleware is for the handler executors. These do not apply to the swagger.json document.
@@ -110,9 +133,17 @@ func HandlerAPI(c Config) (http.Handler, *operations.SocialNakaAppAPI, error) {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 	api.JSONProducer = runtime.JSONProducer()
+	api.PostsCreatePostHandler = posts.CreatePostHandlerFunc(func(params posts.CreatePostParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.PostsAPI.CreatePost(ctx, params)
+	})
 	api.EventsDeleteEventbyIDHandler = events.DeleteEventbyIDHandlerFunc(func(params events.DeleteEventbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
 		return c.EventsAPI.DeleteEventbyID(ctx, params)
+	})
+	api.PostsDeletePostbyIDHandler = posts.DeletePostbyIDHandlerFunc(func(params posts.DeletePostbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.PostsAPI.DeletePostbyID(ctx, params)
 	})
 	api.UsersDeleteUserbyIDHandler = users.DeleteUserbyIDHandlerFunc(func(params users.DeleteUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
@@ -125,6 +156,14 @@ func HandlerAPI(c Config) (http.Handler, *operations.SocialNakaAppAPI, error) {
 	api.EventsGetEventsHandler = events.GetEventsHandlerFunc(func(params events.GetEventsParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
 		return c.EventsAPI.GetEvents(ctx, params)
+	})
+	api.PostsGetPostbyIDHandler = posts.GetPostbyIDHandlerFunc(func(params posts.GetPostbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.PostsAPI.GetPostbyID(ctx, params)
+	})
+	api.PostsGetPostsHandler = posts.GetPostsHandlerFunc(func(params posts.GetPostsParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.PostsAPI.GetPosts(ctx, params)
 	})
 	api.UsersGetUserbyIDHandler = users.GetUserbyIDHandlerFunc(func(params users.GetUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
@@ -149,6 +188,10 @@ func HandlerAPI(c Config) (http.Handler, *operations.SocialNakaAppAPI, error) {
 	api.EventsUpdateEventbyIDHandler = events.UpdateEventbyIDHandlerFunc(func(params events.UpdateEventbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()
 		return c.EventsAPI.UpdateEventbyID(ctx, params)
+	})
+	api.PostsUpdatePostbyIDHandler = posts.UpdatePostbyIDHandlerFunc(func(params posts.UpdatePostbyIDParams) middleware.Responder {
+		ctx := params.HTTPRequest.Context()
+		return c.PostsAPI.UpdatePostbyID(ctx, params)
 	})
 	api.UsersUpdateUserbyIDHandler = users.UpdateUserbyIDHandlerFunc(func(params users.UpdateUserbyIDParams) middleware.Responder {
 		ctx := params.HTTPRequest.Context()

@@ -35,6 +35,51 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/createPost": {
+      "post": {
+        "description": "It registers the Post\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "creates the post",
+        "operationId": "createPost",
+        "parameters": [
+          {
+            "name": "Post Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
     "/events": {
       "get": {
         "description": "It gets all the Events\n",
@@ -267,6 +312,165 @@ func init() {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/eventResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "description": "It gets all the Posts\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get all the Posts",
+        "operationId": "getPosts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "description": "It gets the post information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Gets a post by ID.",
+        "operationId": "getPostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "description": "It delets the post information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Deletes a post by ID.",
+        "operationId": "deletePostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Status"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/InternalServerError"
+          }
+        }
+      },
+      "patch": {
+        "description": "It updates the user information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Updates an post by ID.",
+        "operationId": "updatePostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Post Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
             }
           },
           "400": {
@@ -568,6 +772,60 @@ func init() {
         }
       }
     },
+    "post": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "is_verified": {
+          "type": "boolean"
+        },
+        "post_date": {
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "post_description": {
+          "type": "string"
+        },
+        "post_img_url": {
+          "type": "string"
+        },
+        "post_video_url": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "postResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/post"
+        },
+        "posts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/post"
+          }
+        },
+        "response": {
+          "$ref": "#/definitions/response"
+        }
+      }
+    },
     "registrationResponse": {
       "type": "object",
       "properties": {
@@ -730,6 +988,63 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/createPost": {
+      "post": {
+        "description": "It registers the Post\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "creates the post",
+        "operationId": "createPost",
+        "parameters": [
+          {
+            "name": "Post Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
     "/events": {
       "get": {
         "description": "It gets all the Events\n",
@@ -1057,6 +1372,216 @@ func init() {
         }
       }
     },
+    "/posts": {
+      "get": {
+        "description": "It gets all the Posts\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get all the Posts",
+        "operationId": "getPosts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "description": "It gets the post information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Gets a post by ID.",
+        "operationId": "getPostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "It delets the post information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Deletes a post by ID.",
+        "operationId": "deletePostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API Custom Status",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "It updates the user information details by ID\n",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "posts"
+        ],
+        "summary": "Updates an post by ID.",
+        "operationId": "updatePostbyID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Post ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Post Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/postResponse"
+            }
+          },
+          "400": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "401": {
+            "description": "The api is Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "404": {
+            "description": "The api is not found",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
     "/registerUser": {
       "post": {
         "description": "It registers the User\n",
@@ -1407,6 +1932,60 @@ func init() {
         },
         "username": {
           "type": "string"
+        }
+      }
+    },
+    "post": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "is_verified": {
+          "type": "boolean"
+        },
+        "post_date": {
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "post_description": {
+          "type": "string"
+        },
+        "post_img_url": {
+          "type": "string"
+        },
+        "post_video_url": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "postResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/post"
+        },
+        "posts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/post"
+          }
+        },
+        "response": {
+          "$ref": "#/definitions/response"
         }
       }
     },

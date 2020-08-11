@@ -22,3 +22,12 @@ type EventRepo interface {
 	EditEvent(*models.Event) (*string, error)
 	DeleteEvent(string) (bool, error)
 }
+
+//PostRepo -> Interface for Post DB
+type PostRepo interface {
+	CreateNewPost(*models.Post) (*string, error)
+	GetAllPosts() ([]*models.Post, error)
+	GetSinglePost(string) (*models.Post, error)
+	EditPost(*models.Post) (*string, error)
+	DeletePost(string) (bool, error)
+}

@@ -25,3 +25,12 @@ type EventSvc interface {
 	UpdateEventByID(*models.Event) (*string, error)
 	DeleteEventByID(string) (bool, error)
 }
+
+//PostSvc -> Creates a service for Post Information
+type PostSvc interface {
+	CreatePost(*models.Post) (*string, error)
+	GetPosts() ([]*models.Post, error)
+	GetPostByID(string) (*models.Post, error)
+	UpdatePostByID(*models.Post) (*string, error)
+	DeletePostByID(string) (bool, error)
+}

@@ -10,6 +10,8 @@ produces:
 schemes:
   - http
   - https
+servers:
+  - https://social-naka-app-services.herokuapp.com
 securityDefinitions:
   APIKeyHeader:
     type: apiKey
@@ -352,6 +354,156 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
+#create the Posts
+  /createPost:
+    post:
+      summary: creates the post 
+      description: >
+        It registers the Post
+      operationId: createPost
+      tags:
+        - posts
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: Post Body
+          in: body
+          schema:
+            $ref: "#/definitions/post"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/postResponse"
+        400:
+          $ref: '#/responses/BadRequest'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+#gets all the posts
+  /posts:
+    get:
+      summary: Get all the Posts
+      description: >
+        It gets all the Posts
+      operationId: getPosts
+      tags:
+        - posts
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:  
+            $ref: '#/definitions/postResponse'
+        400:
+          $ref: '#/responses/BadRequest'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+# read, update and delete for posts
+  /posts/{id}:
+    get:
+      # security:
+      #  - APIKeyHeader: []
+      summary: Gets a post by ID.
+      description: >
+        It gets the post information details by ID
+      operationId: getPostbyID
+      tags:
+        - posts
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Post ID
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/postResponse"
+        400:
+          $ref: '#/responses/BadRequest'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+    
+    patch:
+      summary: Updates an post by ID.
+      description: >
+        It updates the user information details by ID
+      operationId: updatePostbyID
+      tags:
+        - posts
+      produces:
+        - application/json
+      parameters: 
+        - in: path
+          name: id
+          description: Post ID
+          type: string
+          required: true
+        - in: body
+          name: Post Body
+          schema:
+            $ref: "#/definitions/post"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/postResponse'
+        400:
+          $ref: '#/responses/BadRequest'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+    
+    delete:
+      summary: Deletes a post by ID.
+      description: >
+        It delets the post information details by ID
+      operationId: deletePostbyID
+      tags:
+        - posts
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Post ID
+          type: string
+          required: true
+      responses:
+        200:
+          $ref: '#/responses/Status'
+        400:
+          $ref: '#/responses/BadRequest'
+        401:
+          $ref: '#/responses/UnauthorizedError'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+
 definitions:
   loginUser:
     type: object
@@ -403,7 +555,7 @@ definitions:
         type: string
       role_name:
         type: string
-  
+          
   event:
     type: object
     properties:
@@ -431,6 +583,34 @@ definitions:
         type: boolean
       is_verified:
         type: boolean
+
+  post:
+    type: object
+    properties:
+      id:
+        type: string
+      post_description:
+        type: string
+      post_date:
+        type: string
+        format: date
+        x-nullable: true
+      post_img_url:
+        type: string
+      post_video_url:
+        type: string
+      created_at: 
+        type: string
+      updated_at:
+        type: string
+      is_active:
+        type: boolean
+      is_verified:
+        type: boolean
+      user_id:
+        type: string
+
+      
 
 
   response:
@@ -462,6 +642,18 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/event"
+  
+  postResponse:
+    type: object
+    properties:
+      response:
+        $ref: "#/definitions/response"
+      post:
+        $ref: "#/definitions/post"
+      posts:
+        type: array
+        items:
+          $ref: "#/definitions/post"
 
   
   userResponse:

@@ -79,6 +79,23 @@ func ParseEvent(event repo.Event) *models.Event {
 	return newevent
 }
 
+//ParsePost -> Repo post model to api post Model
+func ParsePost(post repo.Post) *models.Post {
+	newPost := &models.Post{}
+	newPost.ID = post.ID.Hex()
+	newPost.PostDate = post.PostDate
+	newPost.PostDescription = post.PostDescription
+	newPost.PostImgURL = post.PostImgURL
+	newPost.PostVideoURL = post.PostVideoURL
+	newPost.IsActive = post.IsActive
+	newPost.CreatedAt = post.CreatedAt
+	newPost.UpdatedAt = post.UpdatedAt
+	newPost.IsVerified = post.IsVerified
+	newPost.UserID = post.UserID
+
+	return newPost
+}
+
 // SetEditUser -> Setter for the Edit stuff
 func SetEditUser(req, dbUser *models.User) *models.User {
 
@@ -156,6 +173,31 @@ func SetEditEvent(req, dbEvent *models.Event) *models.Event {
 	dbEvent.IsVerified = req.IsVerified
 
 	return dbEvent
+}
+
+// SetEditPost -> Setter for the Post stuff
+func SetEditPost(req, dbPost *models.Post) *models.Post {
+
+	if req.PostDescription != "" {
+		dbPost.PostDescription = req.PostDescription
+	}
+	if req.PostImgURL != "" {
+		dbPost.PostImgURL = req.PostImgURL
+	}
+	if req.UserID != "" {
+		dbPost.UserID = req.UserID
+	}
+	if req.PostDate != nil {
+		dbPost.PostDate = req.PostDate
+	}
+	if req.ID != "" {
+		dbPost.ID = req.ID
+	}
+
+	dbPost.IsActive = req.IsActive
+	dbPost.IsVerified = req.IsVerified
+
+	return dbPost
 }
 
 //EncryptPass -> hashes the password

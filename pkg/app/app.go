@@ -9,6 +9,7 @@ import (
 	"github.com/amanw/social-naka-app-services/pkg/api/restapi"
 	"github.com/amanw/social-naka-app-services/pkg/service/event"
 	"github.com/amanw/social-naka-app-services/pkg/service/login"
+	"github.com/amanw/social-naka-app-services/pkg/service/post"
 	"github.com/amanw/social-naka-app-services/pkg/service/user"
 	interpose "github.com/carbocation/interpose/middleware"
 	"github.com/joho/godotenv"
@@ -36,10 +37,10 @@ func (a *App) Init(devType string) (http.Handler, error) {
 			log.Fatal("Error loading .env file")
 		}
 	}
-	logrus.Print("HERE")
+	logrus.Print("Creating a DB Connection")
 	// Create a mongo DB connection
 	db := a.InitDB()
-	fmt.Println(db)
+	logrus.Printf("The Db is connected: %v", db)
 
 	userService, userErr := user.NewService(db)
 	if userErr != nil {
@@ -51,9 +52,14 @@ func (a *App) Init(devType string) (http.Handler, error) {
 		return nil, fmt.Errorf("Event Service cannot be created %+v", eventErr)
 	}
 
-	loginService, eventErr := login.NewService(db)
+	loginService, loginErr := login.NewService(db)
 	if eventErr != nil {
-		return nil, fmt.Errorf("Login Service cannot be created %+v", eventErr)
+		return nil, fmt.Errorf("Login Service cannot be created %+v", loginErr)
+	}
+
+	postService, postErr := post.NewService(db)
+	if postErr != nil {
+		return nil, fmt.Errorf("Post Service cannot be created %+v", postErr)
 	}
 
 	socialNakaAPIConfig := restapi.Config{
@@ -61,6 +67,7 @@ func (a *App) Init(devType string) (http.Handler, error) {
 		UsersAPI:        handlers.NewUserHandler(userService),
 		EventsAPI:       handlers.NewEventHandler(eventService),
 		LoginAPI:        handlers.NewLoginHandler(loginService),
+		PostsAPI:        handlers.NewPostHandler(postService),
 		InnerMiddleware: interpose.NegroniLogrus(),
 	}
 	handler, err := restapi.Handler(socialNakaAPIConfig)

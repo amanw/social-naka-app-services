@@ -98,7 +98,7 @@ func (e EventHandler) GetEventbyID(ctx context.Context, params api.GetEventbyIDP
 			Code:    400,
 			Message: postErr.Error(),
 		}
-		return api.NewDeleteEventbyIDBadRequest().WithPayload(getEventErr)
+		return api.NewGetEventbyIDBadRequest().WithPayload(getEventErr)
 
 	}
 	eventResponse.Response = &models.Response{
